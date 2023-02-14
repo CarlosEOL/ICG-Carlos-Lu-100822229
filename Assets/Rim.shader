@@ -4,8 +4,9 @@ Shader "Custom/Rim"
     {
         _Color ("Color", Color) = (1,1,1,1)
         _RimColor ("Rim Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Rim ("Rim Power", Range(0, 10)) = 0.0
+        _Metallic ("Metallic", Range(0, 10)) = 0.0
+        _Glossiness ("Glossiness", Range(0, 10)) = 0.0
         
     }
     SubShader
@@ -16,9 +17,6 @@ Shader "Custom/Rim"
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Standard fullforwardshadows
-
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
 
         sampler2D _MainTex;
 
@@ -37,7 +35,6 @@ Shader "Custom/Rim"
 
         fixed3 viewDir;
         fixed3 normalDir;
-        
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -53,7 +50,7 @@ Shader "Custom/Rim"
             half rim = 1 - saturate(dot(normalize(IN.viewDir), o.Normal));
             
             // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+            //fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = pow (rim, _Rim) * 10 * _Color;
             
             o.Emission = _RimColor.rgb * pow (rim, _Rim);
@@ -61,7 +58,8 @@ Shader "Custom/Rim"
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = o.a;
+            
+            o.Alpha = o.Albedo;
         }
         ENDCG
     }
