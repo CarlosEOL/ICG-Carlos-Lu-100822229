@@ -22,18 +22,18 @@ public class CJetPlayer : MonoBehaviour
     [SerializeField] private Camera _camera;
 
     [Header("UI")] 
-    [SerializeField] private TextMeshProUGUI _fuelText;
+    //[SerializeField] private TextMeshProUGUI _fuelText;
     [SerializeField] private TextMeshProUGUI _distanceText;
-    [SerializeField] private GameObject PauseMenu;
+    //[SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject InGameMenu;
-    [SerializeField] private GameObject LossMenu;
-    [SerializeField] private GameObject WinScreen;
+    //[SerializeField] private GameObject LossMenu;
+    //[SerializeField] private GameObject WinScreen;
 
     private bool isShooting;
-    private float _currentFuel;
-    private float _fuelLossMultiplier;
+    //private float _currentFuel;
+    //private float _fuelLossMultiplier;
     private float _travelledDistance = 0.0f;
-    private float _maxDistance = 4000.0f;
+    //private float _maxDistance = 4000.0f;
 
     private Vector2 _movementDir;
 
@@ -45,7 +45,7 @@ public class CJetPlayer : MonoBehaviour
     {
         temp = transform.position;
         _rb = GetComponent<Rigidbody>();
-        _currentFuel = _maxFuel;
+        //_currentFuel = _maxFuel;
         
         #region HandleControls
 
@@ -59,27 +59,13 @@ public class CJetPlayer : MonoBehaviour
             _movementDir.x = v.x;
             _movementDir.y = v.y;
 
-            _fuelLossMultiplier = 0.87f;
+            //_fuelLossMultiplier = 0.87f;
         };
 
-        _control.KeyboardMouse.Movement.canceled += ctx =>_fuelLossMultiplier = 0.25f;
+        //_control.KeyboardMouse.Movement.canceled += ctx =>_fuelLossMultiplier = 0.25f;
 
         _control.KeyboardMouse.Shoot.performed += ctx => isShooting = true;
         _control.KeyboardMouse.Shoot.canceled += ctx => isShooting = false;
-
-        _control.KeyboardMouse.Pause.started += ctx =>
-        {
-            PauseMenu.SetActive(true);
-            InGameMenu.SetActive(false);
-            Time.timeScale = 0;
-        };
-        
-        _control.KeyboardMouse.Pause.canceled += ctx =>
-        {
-            PauseMenu.SetActive(false);
-            InGameMenu.SetActive(true);
-            Time.timeScale = 1.0f;
-        };
 
         #endregion
     }
@@ -99,7 +85,7 @@ public class CJetPlayer : MonoBehaviour
     private void Update()
     {
         _camera.fieldOfView = 70.0f + (5.0f * (_rb.velocity.magnitude /_maxSpeed));
-
+/*
         if (_currentFuel <= 0)
         {
             OnDisable();
@@ -107,21 +93,14 @@ public class CJetPlayer : MonoBehaviour
             LossMenu.SetActive(true);
             InGameMenu.SetActive(false);
         }
-
-        if (_travelledDistance >= _maxDistance)
-        {
-            _currentFuel = 100.0f;
-
-            WinScreen.SetActive(true);
-            InGameMenu.SetActive(false);
-        }
+*/
     }
 
     private void FixedUpdate()
     {
         Move();
         CheckShoot();
-        UpdateFuel();
+        // UpdateFuel();
         UpdateDistance();
     }
 
@@ -155,17 +134,17 @@ public class CJetPlayer : MonoBehaviour
             _shootTemp += Time.deltaTime;
         }
     }
-
+/*
     void UpdateFuel()
     {
         _fuelText.text = "Fuel: " + (int)_currentFuel;
 
         _currentFuel -= Time.deltaTime * _fuelLossMultiplier * 2.0f;
     }
-
+*/
     void UpdateDistance()
     {
-        _distanceText.text = "Distance Travelled: " + (int)_travelledDistance + " / " + (int)_maxDistance;
+        _distanceText.text = "Distance Travelled: " + (int)_travelledDistance;
 
         _travelledDistance += Vector3.Distance(transform.position, temp);
         temp = transform.position;
