@@ -1,6 +1,7 @@
 # A Copy Cat of Twin Bee
  Carlos's ICG Practical Project
- 
+ ![image](https://user-images.githubusercontent.com/74547522/218838840-61700aaf-7310-404d-8056-aee1c77187f0.png)
+
  ## The Plane Model
  This plane's model and materials are all made originally by me in Blender before, so I'm using it for this project.
  
