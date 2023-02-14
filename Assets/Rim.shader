@@ -11,12 +11,12 @@ Shader "Custom/Rim"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" }
+        Tags { "Queue"="Transparent" }
         LOD 200
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        #pragma surface surf Standard fullforwardshadows alpha:fade
 
         sampler2D _MainTex;
 
@@ -59,7 +59,7 @@ Shader "Custom/Rim"
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
             
-            o.Alpha = o.Albedo;
+            o.Alpha = pow (rim, _Rim);
         }
         ENDCG
     }
